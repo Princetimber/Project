@@ -1,0 +1,178 @@
+{
+	"analyzers": {
+		"core": {
+			"enabled": true,
+			"rules": {
+				"adminusername-should-not-be-literal": {
+					"level": "warning"
+				},
+				"no-hardcoded-env-urls": {
+					"level": "warning",
+					"disallowedhosts": [
+						"gallery.azure.com",
+						"management.core.windows.net",
+						"management.azure.com",
+						"database.windows.net",
+						"core.windows.net",
+						"login.microsoftonline.com",
+						"graph.windows.net",
+						"trafficmanager.net",
+						"datalake.azure.net",
+						"azuredatalakestore.net",
+						"azuredatalakeanalytics.net",
+						"vault.azure.net",
+						"api.loganalytics.io",
+						"asazure.windows.net",
+						"region.asazure.windows.net",
+						"batch.core.windows.net"
+					],
+					"excludedhosts": ["schema.management.azure.com"]
+				},
+				"no-unnecessary-dependson": {
+					"level": "warning"
+				},
+				"no-unused-params": {
+					"level": "warning"
+				},
+				"no-unused-vars": {
+					"level": "warning"
+				},
+				"outputs-should-not-contain-secrets": {
+					"level": "error"
+				},
+				"prefer-interpolation": {
+					"level": "warning"
+				},
+				"secure-parameter-default": {
+					"level": "warning"
+				},
+				"simplify-interpolation": {
+					"level": "warning"
+				},
+				"use-stable-vm-image": {
+					"level": "warning"
+				},
+				"artifacts-parameters": {
+					"level": "warning"
+				},
+				"explicit-values-for-loc-params": {
+					"level": "warning"
+				},
+				"no-hardcoded-location": {
+					"level": "error"
+				},
+				"use-stable-resource-identifiers": {
+					"level": "warning"
+				},
+				"no-loc-expr-outside-params": {
+					"level": "warning"
+				},
+				"no-unused-existing-resources": {
+					"level": "warning"
+				},
+				"secure-secrets-in-params": {
+					"level": "error"
+				},
+				"prefer-unquoted-property-names": {
+					"level": "warning"
+				},
+				"protect-commandtoexecute-secrets": {
+					"level": "warning"
+				},
+				"max-params": {
+					"level": "error"
+				},
+				"max-resources": {
+					"level": "error"
+				},
+				"max-variables": {
+					"level": "error"
+				},
+				"max-outputs": {
+					"level": "error"
+				},
+				"secure-params-in-nested-deploy": {
+					"level": "warning"
+				},
+				"use-recent-api-versions": {
+					"level": "warning",
+					"maxAgeInDays": 0
+				},
+				"decompiler-cleanup": {
+					"level": "warning"
+				},
+				"use-resource-id-functions": {
+					"level": "warning"
+				},
+				"use-parent-property": {
+					"level": "warning"
+				},
+				"max-asserts": {
+					"level": "error"
+				},
+				"nested-deployment-template-scoping": {
+					"level": "warning"
+				},
+				"no-conflicting-metadata": {
+					"level": "warning"
+				},
+				"use-resource-symbol-reference": {
+					"level": "warning"
+				},
+				"no-deployments-resources": {
+					"level": "off"
+				},
+				"simplify-json-null": {
+					"level": "warning"
+				}
+			}
+		}
+	},
+	"cloud": {
+		"credentialPrecedence": [
+			"AzureCLI",
+			"AzurePowerShell",
+			"VisualStudioCode",
+			"Environment"
+		],
+		"currentProfile": "AzureCloud",
+		"profiles": {
+			"AzureCloud": {
+				"resourceManagerEndpoint": "https://management.azure.com/",
+				"activeDirectoryAuthority": "https://login.microsoftonline.com/"
+			}
+		}
+	},
+	"cacheRootDirectory": ".bicep/cache",
+	"formatting": {
+		"indentation": "  ",
+		"indentationSize": 2,
+		"insertSpaces": true,
+		"newLineKind": "lf",
+		"trimTrailingWhitespace": true,
+		"insertFinalNewline": true
+	},
+	"providers": {
+		"az": "builtin:",
+		"kubernetes": "builtin:",
+		"microsoftGraph": "builtin:",
+		"microsoft.insights": "builtin:",
+		"microsoft.security": "builtin:",
+		"microsoft.web": "builtin:",
+		"azurestack": "builtin:",
+		"microsoft.compute": "builtin:"
+	},
+	"implicitProviders": [
+		"az",
+		"kubernetes",
+		"microsoftGraph",
+		"microsoft.insights",
+		"microsoft.security",
+		"microsoft.web"
+	],
+	"experimentalFeaturesEnabled": {
+		"microsoftGraphPreview": true,
+		"dynamicTypeLoading": true,
+		"symbolicNameCodegen": true
+	}
+}

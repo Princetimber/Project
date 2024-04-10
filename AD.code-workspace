@@ -1,0 +1,79 @@
+{
+  "folders": [
+    {
+      "name": "Domain Controllers",
+      "path": "./DomainController",
+      "folders": [
+        {
+          "name": "Domain Controller",
+          "path": "./DomainController/DC1"
+        },
+        {
+          "name": "Domain Controller",
+          "path": "./DomainController/DC2"
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "path": "./Users",
+      "folders": [
+        {
+          "name": "Users",
+          "path": "./Users/Administrators"
+        },
+        {
+          "name": "Users",
+          "path": "./Users/Service Accounts"
+        },
+        {
+          "name": "Users",
+          "path": "./Users/Standard Users"
+        }
+      ]
+    },
+    {
+      "name": "Groups",
+      "path": "./Groups",
+      "folders": [
+        {
+          "name": "Groups",
+          "path": "./Groups/Administrators"
+        },
+        {
+          "name": "Groups",
+          "path": "./Groups/Service Accounts"
+        },
+        {
+          "name": "Groups",
+          "path": "./Groups/Standard Users"
+        },
+        {
+          "name": "Groups",
+          "path": "./Groups/GroupManagedServiceAccounts"
+        }
+      ]
+    },
+    {
+      "name": "OrganizationalUnits",
+      "path": "./OrganizationalUnits",
+      "folders": [
+        {
+          "name": "OrganizationalUnit",
+          "path": "./OrganizationalUnits/root"
+        },
+        {
+          "name": "OrganizationalUnit",
+          "path": "./OrganizationalUnits/Child"
+        }
+      ]
+    }
+  ],
+  "settings": {
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.powershell"
+    ]
+  }
+}

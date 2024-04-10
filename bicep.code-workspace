@@ -1,0 +1,90 @@
+{
+  "folders": [
+    {
+      "name": "Networking",
+      "path": "./Networking",
+      "folders": [
+        {
+          "name": "VirtualNetwork",
+          "path": "./Networking/VirtualNetwork"
+        },
+        {
+          "name": "Subnet",
+          "path": "./Networking/Subnet"
+        }
+      ]
+    },
+    {
+      "name": "Compute",
+      "path": "./Compute",
+      "folders": [
+        {
+          "name": "Windows",
+          "path": "./compute/windows"
+        },
+        {
+          "name": "Linux",
+          "path": "./Compute/Linux"
+        }
+      ]
+    },
+    {
+      "name": "Storage",
+      "path": "./Storage",
+      "folders": [
+        {
+          "name": "Storage Accounts",
+          "path": "./Storage/Storage Accounts"
+        }
+      ]
+    },
+    {
+      "name": "Security",
+      "path": "./Security",
+      "folders": [
+        {
+          "name": "KeyVault",
+          "path": "./Security/KeyVault"
+        }
+      ]
+    },
+    {
+      "name": "Gateways",
+      "path": "./Gateways",
+      "folders": [
+        {
+          "name": "VpnGateway",
+          "path": "./Gateways/VpnGateway"
+        },
+        {
+          "name": "LocalGateway",
+          "path": "./Gateways/LocalGateway"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "azureBicep.build": {
+      "output": "./.build"
+    },
+    "azureBicep.deploy": {
+      "output": "./.deploy"
+    },
+    "azureBicep.linter": {
+      "enabled": true
+    },
+    "azureBicep.telemetry": {
+      "enabled": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-azuretools.vscode-azurebicep",
+      "ms-azuretools.vscode-azurecli",
+      "msazurermtools.azurerm-vscode-tools",
+      "editorconfig.editorconfig",
+      "ms-vscode.azure-account",
+      "github.copilot"
+    ]
+  }
+}
