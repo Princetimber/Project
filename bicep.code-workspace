@@ -63,20 +63,7 @@
       ]
     }
   ],
-  "settings": {
-    "azureBicep.build": {
-      "output": "./.build"
-    },
-    "azureBicep.deploy": {
-      "output": "./.deploy"
-    },
-    "azureBicep.linter": {
-      "enabled": true
-    },
-    "azureBicep.telemetry": {
-      "enabled": true
-    }
-  },
+  "settings": {},
   "extensions": {
     "recommendations": [
       "ms-azuretools.vscode-azurebicep",
