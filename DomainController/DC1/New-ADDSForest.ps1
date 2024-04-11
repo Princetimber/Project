@@ -53,6 +53,8 @@ $PSDefaultParameterValues = @{
   'New-ADDSForest:SysvolPath' = "$env:SystemDrive\Windows\"
   'New-ADDSForest:Force' = $true
 }
+$RegisteredSecretVault = $null
+$AzureConnection = $null
 function Install-RequiredModule {
   param(
     [string[]]$Name = @( 'Microsoft.PowerShell.SecretManagement', 'az.keyvault')
@@ -111,15 +113,15 @@ function Test-Paths {
   }
 }
 function Connect-ToAzure {
-  if($null -eq $Global:AzureConnection){
+  if($null -eq $AzureConnection){
     try {
       Connect-AzAccount -UseDeviceAuthentication
       $timeout = New-TimeSpan -Seconds 90
       $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
       while($stopwatch.Elapsed -lt $timeout){
         $context = (Get-AzContext -ErrorAction SilentlyContinue).Account
-        $Global:AzureConnection = $context
-        if($Global:AzureConnection){
+        $AzureConnection = $context
+        if($AzureConnection){
           write-output "Already connected to Azure."
           break
         }
@@ -146,12 +148,12 @@ function Add-RegisteredSecretVault {
       SubscriptionId = (Get-AzContext).Subscription.Id
     }
   )
-  if($null -eq $Global:RegisteredSecretVault){
+  if($null -eq $RegisteredSecretVault){
     try {
       Register-SecretVault -Name $Name -ModuleName $ModuleName -VaultParameters $VaultParameters -Confirm:$false
       $secretContext = (Get-SecretVault -Name $Name).Name
-      $Global:RegisteredSecretVault = $secretContext
-      if($Global:RegisteredSecretVault){
+      $RegisteredSecretVault = $secretContext
+      if($RegisteredSecretVault){
         write-output "Secret vault $Name registered successfully"
         return
       }
@@ -168,9 +170,7 @@ function Remove-RegisteredSecretVault {
   param(
     [string]$Name = (Get-Vault).VaultName
   )
-  $context =(Get-SecretVault -Name $Name).Name
-  $Global:UnregisterSecretVault = $context
-  if($Global:UnregisterSecretVault){
+  if(!$RegisteredSecretVault){
     try {
       Unregister-SecretVault -Name $Name -Confirm:$false
       write-output "Secret vault $Name unregistered successfully"
@@ -182,9 +182,9 @@ function Remove-RegisteredSecretVault {
 }
 function Disconnect-FromAzure {
   try {
-    if($Global:AzureConnection){
+    if(!$AzureConnection){
       Disconnect-AzAccount -Confirm:$false
-      $Global:AzureConnection = $null
+      $AzureConnection = $null
       write-output "Disconnected from Azure"
     }
   }
