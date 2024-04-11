@@ -114,15 +114,24 @@ function Test-Paths {
 function Connect-ToAzure {
   if($null -eq $AzureConnection){
     try {
-      Connect-AzAccount -UseDeviceAuthentication
-      $timeout = New-TimeSpan -Seconds 90
-      $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
-      while($stopwatch.Elapsed -lt $timeout){
-        $context = (Get-AzContext -ErrorAction SilentlyContinue).Account
-        $AzureConnection = $context
-        if($AzureConnection){
-          write-output "Already connected to Azure."
-          break
+      # Check if there is an existing connection
+      $existingConnection = Get-AzContext -ErrorAction SilentlyContinue
+      if($existingConnection){
+        Write-Output "Already connected to Azure"
+        return
+      }
+      # Connect to Azure
+      if($null -eq $AzureConnection){
+        Connect-AzAccount -UseDeviceAuthentication
+        $timeout = New-TimeSpan -Minutes 90
+        $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+        while ($stopwatch.Elapsed -lt $timeout){
+          $Context = (Get-AzContext -ErrorAction SilentlyContinue).Account
+          $AzureConnection = $Context
+          if($AzureConnection){
+            write-output "Connected to Azure"
+            return
+          }
         }
       }
     }
@@ -138,14 +147,6 @@ function Get-Vault {
   )
   Get-AzKeyVault @PSBoundParameters
 }
-funtion Add-AdminCredential{
-  param(
-    [string]$DomainAdminUser,
-    [string]$DomainAdminSecretName
-  )
-  [securestring]$DomainAdminPassword = Get-Secret -Name $DomainAdminSecretName -Vault $vaultName
-  New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $DomainAdminUser, $DomainAdminPassword
-}
 function Add-RegisteredSecretVault {
   param(
     [string]$Name = (Get-Vault).VaultName,
@@ -155,11 +156,17 @@ function Add-RegisteredSecretVault {
       SubscriptionId = (Get-AzContext).Subscription.Id
     }
   )
+  # Check if the vault is already registered
+  $existingVault = Get-SecretVault -Name $Name -ErrorAction SilentlyContinue
+  if($existingVault){
+    Write-Output "Secret vault $Name is already registered"
+    return
+  }
   if($null -eq $RegisteredSecretVault){
     try {
       Register-SecretVault -Name $Name -ModuleName $ModuleName -VaultParameters $VaultParameters -Confirm:$false
-      $secretContext = (Get-SecretVault -Name $Name).Name
-      $RegisteredSecretVault = $secretContext
+      $Context = (Get-SecretVault -Name $Name).Name
+      $RegisteredSecretVault = $Context
       if($RegisteredSecretVault){
         write-output "Secret vault $Name registered successfully"
         return
@@ -168,9 +175,6 @@ function Add-RegisteredSecretVault {
     catch {
       Write-Error "Failed to register the secret vault. Please see the error message below.:$_"
     }
-  }
-  else{
-    Write-Output "Secret vault $Name is already registered"
   }
 }
 function Remove-RegisteredSecretVault {
@@ -235,19 +239,15 @@ function Add-ADDomainController {
   }
   # retrieve the safe mode admin password
   $vaultName = (Get-Vault).VaultName
+  $credential = New-Object System.Management.Automation.PSCredential ($DomainAdminUser, (Get-Secret -Name $DomainAdminSecretName -Vault $vaultName))
   [securestring]$safeModeAdministratorPassword = Get-Secret -Name $SafeModeAdminSecretName -Vault $vaultName
   $param = $commonParams.Clone()
   $keys = @{
     SafeModeAdministratorPassword = $safeModeAdministratorPassword
-  }
-  Add-keys -hash $param -keys $keys
-  # retrieve the domain admin password
-  $credential = Add-AdminCredential
-  $param = $commonParams.Clone()
-  $keys = @{
     Credential = $credential
   }
-  Add-keys -hash $param -keys $keys
+  Add-keys -hash $param -keys $keys  
+  
   try {
     # add the domain controller6-**
     Install-ADDSDomainController @param
@@ -256,10 +256,10 @@ function Add-ADDomainController {
     Write-Error "Failed to add the domain controller. Please see the error message below.:$_"
   }
   finally {
-    # disconnect from azure
-    Disconnect-FromAzure
     # remove the registered secret vault
     Remove-RegisteredSecretVault
+    # disconnect from azure
+    Disconnect-FromAzure
   }
 }
 function New-ADDSDomainController{

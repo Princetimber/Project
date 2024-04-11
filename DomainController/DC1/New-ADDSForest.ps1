@@ -115,15 +115,24 @@ function Test-Paths {
 function Connect-ToAzure {
   if($null -eq $AzureConnection){
     try {
-      Connect-AzAccount -UseDeviceAuthentication
-      $timeout = New-TimeSpan -Seconds 90
-      $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
-      while($stopwatch.Elapsed -lt $timeout){
-        $context = (Get-AzContext -ErrorAction SilentlyContinue).Account
-        $AzureConnection = $context
-        if($AzureConnection){
-          write-output "Already connected to Azure."
-          break
+      # Check if there is an existing connection
+      $existingConnection = Get-AzContext -ErrorAction SilentlyContinue
+      if($existingConnection){
+        Write-Output "Already connected to Azure"
+        return
+      }
+      # Connect to Azure
+      if($null -eq $AzureConnection){
+        Connect-AzAccount -UseDeviceAuthentication
+        $timeout = New-TimeSpan -Minutes 90
+        $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+        while ($stopwatch.Elapsed -lt $timeout){
+          $Context = (Get-AzContext -ErrorAction SilentlyContinue).Account
+          $AzureConnection = $Context
+          if($AzureConnection){
+            write-output "Connected to Azure"
+            return
+          }
         }
       }
     }
@@ -148,11 +157,17 @@ function Add-RegisteredSecretVault {
       SubscriptionId = (Get-AzContext).Subscription.Id
     }
   )
+  # Check if the vault is already registered
+  $existingVault = Get-SecretVault -Name $Name -ErrorAction SilentlyContinue
+  if($existingVault){
+    Write-Output "Secret vault $Name is already registered"
+    return
+  }
   if($null -eq $RegisteredSecretVault){
     try {
       Register-SecretVault -Name $Name -ModuleName $ModuleName -VaultParameters $VaultParameters -Confirm:$false
-      $secretContext = (Get-SecretVault -Name $Name).Name
-      $RegisteredSecretVault = $secretContext
+      $Context = (Get-SecretVault -Name $Name).Name
+      $RegisteredSecretVault = $Context
       if($RegisteredSecretVault){
         write-output "Secret vault $Name registered successfully"
         return
@@ -161,9 +176,6 @@ function Add-RegisteredSecretVault {
     catch {
       Write-Error "Failed to register the secret vault. Please see the error message below.:$_"
     }
-  }
-  else{
-    Write-Output "Secret vault $Name is already registered"
   }
 }
 function Remove-RegisteredSecretVault {
