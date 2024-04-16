@@ -1,0 +1,20 @@
+$Param = @{
+    Name = 'ADDSConfigurations'
+    Path = ''
+    RootModule = 'ADDSConfigurations.psm1'
+    FunctionsToExport = 'New-ADForest', 'New-ADDSDomainController'
+    CmdletsToExport = 'New-ADForest', 'New-ADDSDomainController'
+    VariablesToExport = 'New-ADForest', 'New-ADDSDomainController'
+    AliasesToExport = 'New-ADForest', 'New-ADDSDomainController'
+    Author = 'Olamide Olaleye'
+    CompanyName = 'Fountview Technology Solutions'
+    ModuleVersion = '1.0.1'
+    Copyright = '(c) Fountview Technology Solutions. All rights reserved.'
+    Description = 'This module will install a new AD forest and domain controller. It will securely pull down organization secrets from Azure and use them to configure the domain controller.It also remove the secrets from the local machine after the domain controller opoeration has been completed.'
+    PowerShellVersion = '7.2'
+    ProcessorArchitecture = 'Amd64'
+    Tags = 'Active Directory', 'DomainController', 'Forest', 'Domain', 'ADDS', 'Configurations'
+    ProjectUri = ''
+    HelpInfoUri = ''
+}
+New-ModuleManifest @Param
