@@ -26,6 +26,12 @@
     The name of the resource group in Azure where the key vault is located.
   ##### PARAMETER secretName
     The name of the secret in the key vault that contains the safe mode administrator password.
+  #### PARAMETER SiteName
+    The name of the site where the new domain controller will be located. This is set to 'Default-First-Site-Name' by default.
+  ####  PARAMETER DomainAdminSecretName
+    The name of the secret in the key vault that contains the domain administrator password.
+  ####  PARAMETER DomainAdminUser
+    The username of the domain administrator.
   ##### PARAMETER Force
     This is a switch parameter that forces the operation to continue without prompting for confirmation.    
 ### NOTES
@@ -36,6 +42,7 @@
     Specify a URI to a help page, this will show when Get-Help -Online is used.
 ### EXAMPLE
     New-ADForest -DomainName "contoso.com" -DomainNetBiosName "CONTOSO" -KeyVaultName "mykeyvault" -ResourceGroupName "myresourcegroup" -secretName "safemodeadminpassword"
+
     This example creates a new Active Directory Forest with the specified parameters.
     The function assumes default values for the DomainMode, ForestMode, DatabasePath, LogPath, and SysvolPath parameters.
 ### EXAMPLE
