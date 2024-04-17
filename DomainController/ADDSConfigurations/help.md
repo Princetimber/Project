@@ -1,6 +1,7 @@
 # Active Directory Domain Service Configuration Module using PowerShell
 
->
+<
+
 ## SYNOPSIS
 
     This function is used to create a new Active Directory Forest in on-premises or Azure.
@@ -112,3 +113,4 @@
 ### OUTPUTS
 
     System.String
+>
