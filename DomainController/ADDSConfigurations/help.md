@@ -1,4 +1,4 @@
-<!--
+
 .SYNOPSIS
     This function is used to create a new Active Directory Forest in on-premises or Azure.
   .DESCRIPTION
@@ -45,4 +45,4 @@
     System.String
   .OUTPUTS
     System.String
- -->
+
