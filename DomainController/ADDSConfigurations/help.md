@@ -35,21 +35,29 @@
   ##### PARAMETER Force
     This is a switch parameter that forces the operation to continue without prompting for confirmation.    
 ### NOTES
-    File Name      : New-ADForest
+    File Name      : New-ADForest, Add-ADDSDomainController
     Author         : Olamide Olaleye
     Prerequisite   : PowerShell 7.2 and above.
 ### LINK
     Specify a URI to a help page, this will show when Get-Help -Online is used.
 ### EXAMPLE
     New-ADForest -DomainName "contoso.com" -DomainNetBiosName "CONTOSO" -KeyVaultName "mykeyvault" -ResourceGroupName "myresourcegroup" -secretName "safemodeadminpassword"
-
-    This example creates a new Active Directory Forest with the specified parameters.
-    The function assumes default values for the DomainMode, ForestMode, DatabasePath, LogPath, and SysvolPath parameters.
+    - This example creates a new Active Directory Forest with the specified parameters.
+    - The function assumes default values for the DomainMode, ForestMode, DatabasePath, LogPath, and SysvolPath parameters.
 ### EXAMPLE
     New-ADForest -DomainName "contoso.com" -DomainNetBiosName "CONTOSO" -DatabasePath "D:\" -LogPath "e:\" -SysvolPath "F:\" -KeyVaultName "mykeyvault" -ResourceGroupName "myresourcegroup" -secretName "safemodeadminpassword" -Force
-    This example creates a new Active Directory Forest with the specified parameters.
-    The function specifies the DatabasePath, LogPath, and SysvolPath parameters.
-    There is no requirement to specify the database, log and sysvol directory folders as the default values are used.
+    - This example creates a new Active Directory Forest with the specified parameters.
+    - The function specifies the DatabasePath, LogPath, and SysvolPath parameters.
+    - There is no requirement to specify the database, log and sysvol directory folders as the default values are used.
+####  EXAMPLE
+    New-ADDSDomainController -DomainName "contoso.com" -KeyVaultName "mykeyvault" -ResourceGroupName "myresourcegroup" -SafeModeAdminSecretName "safemodeadminpassword" -DomainAdminSecretName "domainadminpassword" -DomainAdminUser "domainadmin"
+    - This example adds an additional domain controller to an existing forest/domain with the specified parameters.
+    - The function assumes default values for the SiteName, DatabasePath, LogPath, and SysvolPath parameters.
+#### EXAMPLE
+    New-ADDSDomainController -DomainName "contoso.com" -SiteName "NewSite" -DatabasePath "D:\" -LogPath "e:\" -SysvolPath "F:\" -KeyVaultName "mykeyvault" -ResourceGroupName "myresourcegroup" -SafeModeAdminSecretName "safemodeadminpassword" -DomainAdminSecretName "domainadminpassword" -DomainAdminUser "domainadmin" -Force
+    - This example adds an additional domain controller to an existing forest/domain with the specified parameters.
+    - The function specifies the SiteName, DatabasePath, LogPath, and SysvolPath parameters.
+    - There is no requirement to specify the database, log and sysvol directory folders as the default values are used.
 ### INPUTS
     System.String
 ### OUTPUTS
