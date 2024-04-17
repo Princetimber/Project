@@ -1,9 +1,9 @@
 # Active Directory Domain Service Configuration Module using PowerShell.
 
 >
-## SYNOPSIS
+### SYNOPSIS
     This function is used to create a new Active Directory Forest in on-premises or Azure.
-## DESCRIPTION
+### DESCRIPTION
     This module is used to create a new Active Directory Forest in on-premises or Azure.
     It installs the required modules, connects to Azure, gets the vault, adds the registered secret vault, defines common parameters, retrieves the safe mode administrator password, creates the new AD Forest, removes the registered secret vault, and disconnects from Azure after the operation.
   # PARAMETER DomainName
@@ -16,15 +16,15 @@
     The forest functional level of the new AD Forest. This is set to 'WinThreshold' by default.
   # PARAMETER DatabasePath
     The path to the database folder of the new AD Forest. This is set to the default path of the system drive by default. But you can specify a different path (recommended).
-  # PARAMETER LogPath
+# PARAMETER LogPath
     The path to the log folder of the new AD Forest. This is set to the default path of the system drive by default. But you can specify a different path (recommended).
-  # PARAMETER SysvolPath
+## PARAMETER SysvolPath
     The path to the sysvol folder of the new AD Forest. This is set to the default path of the system drive by default. But you can specify a different path (recommended).
-  # PARAMETER KeyVaultName
+## PARAMETER KeyVaultName
     The name of the key vault in Azure.
-  # PARAMETER ResourceGroupName
+## PARAMETER ResourceGroupName
     The name of the resource group in Azure where the key vault is located.
-  # PARAMETER secretName
+## PARAMETER secretName
     The name of the secret in the key vault that contains the safe mode administrator password.
 ## PARAMETER Force
     This is a switch parameter that forces the operation to continue without prompting for confirmation.    
@@ -32,7 +32,7 @@
     File Name      : New-ADForest
     Author         : Olamide Olaleye
     Prerequisite   : PowerShell 7.2 and above.
-  # LINK
+### LINK
     Specify a URI to a help page, this will show when Get-Help -Online is used.
 ## EXAMPLE
     New-ADForest -DomainName "contoso.com" -DomainNetBiosName "CONTOSO" -KeyVaultName "mykeyvault" -ResourceGroupName "myresourcegroup" -secretName "safemodeadminpassword"
